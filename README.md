@@ -7,4 +7,9 @@ Fonctionnalités:
 - S'inscrire 
 - Se désabonner
 - Mettre à jour les informations sur un utilisateur
-- Lister les personnes inscrites
+
+Affichage de le liste des personnes inscrites:
+CLIQUE DROIT sur un membre de la liste
+--> Menu: Mettre à jour
+          Se désabonner
+          Annuler
