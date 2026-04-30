@@ -39,6 +39,8 @@ private slots:
     void updateDel();
     void updateOK();
 
+    void menuDansListe(QPoint pos);
+
 private:
     Ui::Inscription *ui;
     vector <Personne> list;
