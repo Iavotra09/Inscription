@@ -45,7 +45,7 @@ Inscription::Inscription(QWidget *parent)
 
 void Inscription::prendreListe()
 {
-    ifstream flux("/home/iavotra/cpp/Projet Qt/Inscription/list.txt");
+    ifstream flux("list.txt");
     string ligne;
     while(getline(flux, ligne))
     {
@@ -62,7 +62,7 @@ void Inscription::prendreListe()
 
 void Inscription::updateListe()
 {
-    ofstream flux("/home/iavotra/cpp/Projet Qt/Inscription/list.txt");
+    ofstream flux("list.txt");
     for(Personne& p: list)
     {
         flux << p.getNom() << ":" << p.getAge() << endl;
@@ -108,8 +108,11 @@ void Inscription::inscrireOK()
     age = ui->inscrireAge->text().toInt();
     Personne p(nom, age);
     list.push_back(p);
+    
     updateListe();
     afficherListe();
+    ui->inscrireNom->clear();
+    ui->inscrireAge->clear();
     ui->groupBoxInscription->hide();
 }
 
@@ -140,6 +143,7 @@ void Inscription::desabonnerOK()
     else
     {
         ui->desabonnerNom->clear();
+        ui->desabonnerNom->clear();
         QMessageBox::information(this, "Erreur", "Pas trouvé");
     }
     ui->groupBoxDesab->hide();
@@ -168,6 +172,7 @@ void Inscription::prendreNomOK()
         ui->updateNom->setText(QString::fromStdString(it->getNom()));
         ui->updateAge->setText(QString::number(it->getAge()));
 
+        ui->prendreNom->clear();
         ui->groupBoxPrev->hide();
         ui->groupBoxUpdate->show();
     }
@@ -199,8 +204,11 @@ void Inscription::updateOK()
         it->setNom(nom);
         it->setAge(age);
     }
+    
     updateListe();
     afficherListe();
+    ui->updateNom->clear();
+    ui->updateAge->clear();
     ui->groupBoxUpdate->hide();
 }
 
