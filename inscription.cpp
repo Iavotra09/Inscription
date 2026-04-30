@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QMenu>
+#include <QAction>
 using namespace std;
 
 Inscription::Inscription(QWidget *parent)
@@ -38,6 +40,9 @@ Inscription::Inscription(QWidget *parent)
     connect(ui->prendreNomOK, SIGNAL(clicked()), this, SLOT(prendreNomOK()));
     connect(ui->updateDel, SIGNAL(clicked()), this, SLOT(updateDel()));
     connect(ui->updateOK, SIGNAL(clicked()), this, SLOT(updateOK()));
+
+    ui->listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->listWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(menuDansListe(QPoint)));
 
     prendreListe();
     afficherListe();
@@ -218,6 +223,42 @@ void Inscription::quitter()
     if(QMessageBox::question(this, "Quitter", "Voulez-vouos vraiment quitter?")==QMessageBox::Yes)
     {
         close();
+    }
+}
+
+//-----------------------------------------------------------
+void Inscription::menuDansListe(QPoint pos)
+{
+    QListWidgetItem *elementClique = ui->listWidget->itemAt(pos);
+    if(!elementClique)
+        return;
+
+    int index = ui->listWidget->row(elementClique);
+
+    QMenu menu(this);
+    QAction *actionModifier  = menu.addAction("Modifier");
+    menu.addSeparator();
+    QAction *actionSupprimer = menu.addAction("Supprimer");
+    menu.addSeparator();
+    menu.addAction("Annuler"); //rein faire si Annuler
+
+    QAction *choix = menu.exec(ui->listWidget->mapToGlobal(pos));
+    if(choix == actionModifier)
+    {
+        Personne &p = list[index];
+        temp = p.getNom();
+        ui->updateNom->setText(QString::fromStdString(p.getNom()));
+        ui->updateAge->setText(QString::number(p.getAge()));
+        ui->groupBoxUpdate->show();
+    }
+    else if(choix == actionSupprimer)
+    {
+        if(QMessageBox::question(this, "Supprimer", "Supprimer " + QString::fromStdString(list[index].getNom()) + "?")==QMessageBox::Yes)
+        {
+            list.erase(list.begin()+index);
+            updateListe();
+            afficherListe();
+        }
     }
 }
 
