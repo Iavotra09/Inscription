@@ -236,9 +236,9 @@ void Inscription::menuDansListe(QPoint pos)
     int index = ui->listWidget->row(elementClique);
 
     QMenu menu(this);
-    QAction *actionModifier  = menu.addAction("Modifier");
+    QAction *actionModifier  = menu.addAction("Mettre à jour");
     menu.addSeparator();
-    QAction *actionSupprimer = menu.addAction("Supprimer");
+    QAction *actionSupprimer = menu.addAction("Se désabonner");
     menu.addSeparator();
     menu.addAction("Annuler"); //rein faire si Annuler
 
